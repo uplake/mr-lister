@@ -1,0 +1,26 @@
+{
+  "name": "mr-lister",
+  "version": "0.1.0",
+  "description": "format lists of numbers, letters, or arbitrary items",
+  "main": "./lib/lists",
+  "scripts": {
+    "test": "./node_modules/.bin/nodeunit test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uplake/mr-lister.git"
+  },
+  "keywords": [
+    "javascript",
+    "array",
+    "list"
+  ],
+  "dependencies": {
+    "nodeunit": "~0.8.2",
+    "articles": "~0.2.1"
+  },
+  "author": "Chad Kirby",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "2a585dc7bfa21ab85d90f5dcd07674413d2b7760"
+}
