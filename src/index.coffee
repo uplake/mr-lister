@@ -3,11 +3,13 @@ stringList = require './stringList'
 listMainClause = require './listMainClause'
 
 pollute = ->
-    Object.defineProperty Array::, "listString", 
-       value: (args...) -> listString.apply(null, [this].concat args)
+   unless Array::listString?
+      Object.defineProperty Array::, "listString", 
+         value: (args...) -> listString.apply(null, [this].concat args)
 
-    Object.defineProperty String::, "stringList", 
-       value: (args...) -> stringList.apply(null, [this].concat args)
+   unless String::stringList?
+      Object.defineProperty String::, "stringList", 
+         value: (args...) -> stringList.apply(null, [this].concat args)
 
 module.exports = {
    listString
