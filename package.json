@@ -1,6 +1,6 @@
 {
   "name": "mr-lister",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "format lists of numbers, letters, or arbitrary items",
   "main": "./lib/index",
   "scripts": {
@@ -17,7 +17,8 @@
   ],
   "dependencies": {
     "nodeunit": "~0.8.2",
-    "articles": "~0.2.1"
+    "articles": "~0.2.1",
+    "natural": "~0.1.25"
   },
   "author": "Chad Kirby",
   "license": "BSD",

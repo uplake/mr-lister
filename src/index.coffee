@@ -1,5 +1,6 @@
 listString = require './listString'
 stringList = require './stringList'
+listMainClause = require './listMainClause'
 
 pollute = ->
     Object.defineProperty Array::, "listString", 
@@ -11,6 +12,7 @@ pollute = ->
 module.exports = {
    listString
    stringList
+   listMainClause
    pollute
 }
 
@@ -18,4 +20,3 @@ unless module.parent?
    pollute()
    console.log "1, 2, 3, 5-10".stringList()
    console.log [1,2,3,4,5, 10,11, 15].listString()
-   
