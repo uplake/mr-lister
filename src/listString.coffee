@@ -14,15 +14,19 @@ Articles = require('Articles')
 # listString = (me, andor, article, comma = ', ') ->
 listString = (me, options = {}) ->
    if toString.call(options) is '[object String]'
+      # compatability with old-style fn call
       andor = options
-      options = {}
+      options = {
+         article: arguments[2]
+         comma: arguments[3]
+      }
    else
       andor = options.andor ? options.conjunction ? 'and'
 
    # andor ?= 'and'
    andOrProvided = andor?.length > 0
    article = options.article
-   comma = options.article ? ', '
+   comma = options.comma ? options.separator ? ', '
 
    isRange = every me, isInt
    if isRange

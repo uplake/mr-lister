@@ -4,6 +4,10 @@ exports.ListStringTest =
    'test can list arbitrary items': (test) ->
       test.equal listString(['apples', 'oranges']), 'apples and oranges'
       test.equal listString(['apples', 'oranges', 'monkeys']), 'apples, oranges, and monkeys'
+      test.equal listString(['apples', 'oranges', 'monkeys'], 'or'), 'apples, oranges, or monkeys'
+      test.equal listString(['apples', 'oranges', 'monkeys'], 'or', 'the'), 'the apples, the oranges, or the monkeys'
+      test.equal listString(['apples', 'oranges', 'monkeys'], 'or', '', '; '), 'apples; oranges; or monkeys'
+      test.equal listString(['apples', 'oranges', 'monkeys'], conjunction: 'or', separator: '; '), 'apples; oranges; or monkeys'
       test.equal listString([
          'apples, oranges, and monkeys'
          'peaches'
