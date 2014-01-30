@@ -7,15 +7,16 @@ verbInflector = new PresentVerbInflector()
 
 listString = require './listString'
 
-listMainClause = (list, noun = '', verb, options = {}) ->
+listMainClause = (list, noun, verb) ->
    cmd = if list.length > 1
       'pluralize'
    else
       'singularize'
-   if verb?
-      "#{nounInflector[cmd] noun} #{listString list} #{verbInflector[cmd] verb}"
-   else
-      "#{nounInflector[cmd] noun} #{listString list}"
+
+   verbStr = if verb? then ' ' + verbInflector[cmd](verb) else ''
+   nounStr = if noun? then nounInflector[cmd](noun) + ' ' else ''
+
+   "#{nounStr}#{listString list}#{verbStr}"
 
 module.exports = listMainClause
 
@@ -23,5 +24,6 @@ unless module.parent?
    console.log listMainClause [1], "Claim", 'claim'
    console.log listMainClause [1, 3, 5], "Claim", 'claim'
    console.log listMainClause [1, 3, 5], "Claim"
+   console.log listMainClause [1, 3, 5], null, 'is'
    console.log verbInflector.pluralize 'run'
    console.log verbInflector.singularize 'run'
