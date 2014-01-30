@@ -9,25 +9,34 @@
 } = require './utils'
 
 Articles = require('Articles')
+{toString} = Object::
 
-listString = (inputArray, andor, article, comma = ', ') ->
-   isRange = not andor?
-   andor ?= 'and'
+# listString = (me, andor, article, comma = ', ') ->
+listString = (me, options = {}) ->
+   if toString.call(options) is '[object String]'
+      andor = options
+      options = {}
+   else
+      andor = options.andor ? options.conjunction ? 'and'
+
+   # andor ?= 'and'
    andOrProvided = andor?.length > 0
+   article = options.article
+   comma = options.article ? ', '
 
-   isRange = every inputArray, isInt
+   isRange = every me, isInt
    if isRange
       # is numeric range
-      arr = consolidateRanges(parseInt(a) for a in inputArray)
+      arr = consolidateRanges(parseInt(a) for a in me)
    else # test if alphabetic range
-      isRange = every inputArray, (item) -> /^[a-z]$/i.test(item)
-      arr = consolidateAlphaRanges(inputArray) if isRange
+      isRange = every me, (item) -> /^[a-z]$/i.test(item)
+      arr = consolidateAlphaRanges(me) if isRange
 
-   if inputArray.length > 2
+   if me.length > 2
       if isRange 
          delimiter = comma if arr.length > 2
       else
-         complex = any inputArray, (item) -> /,/.test(item)
+         complex = any me, (item) -> /,/.test(item)
          delimiter = if complex then '; ' else comma
 
    unless delimiter?
@@ -35,7 +44,7 @@ listString = (inputArray, andor, article, comma = ', ') ->
       delimiter = " #{delimiter} " if /^[\w\/]+$/i.test(delimiter)
 
    unless arr?
-      arr = inputArray[..] # (item for item in inputArray when item?) 
+      arr = me[..] # (item for item in me when item?) 
    # add articles
    if /^an?$/.test article
       arr = for item in arr
@@ -45,13 +54,6 @@ listString = (inputArray, andor, article, comma = ', ') ->
 
    arr.push "#{andor} #{arr.pop()}" if andOrProvided and (arr.length > 2)
    arr.join delimiter
-
-listString.pollute = ->
-   Object.defineProperty Array::, "listString", 
-     writable : yes
-     enumerable : no
-     configurable : yes
-     value: (andor, article, comma = ', ') -> listString(this, andor, article, comma)
 
 module.exports = listString
 

@@ -1,8 +1,8 @@
 {
   "name": "mr-lister",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "format lists of numbers, letters, or arbitrary items",
-  "main": "./lib/lists",
+  "main": "./lib/index",
   "scripts": {
     "test": "./node_modules/.bin/nodeunit test"
   },

@@ -1,4 +1,4 @@
-listString = require '../lib/lists'
+listString = require '../lib/listString'
 
 exports.ListStringTest =
    'test can list arbitrary items': (test) ->
@@ -51,7 +51,13 @@ exports.ListStringTest =
       test.done()
 
    'test can pollute Array prototype': (test) ->
-      listString.pollute()
+      pollute = require('../lib/index').pollute
+      pollute()
       test.equal ['apples', 'oranges'].listString(), 'apples and oranges'
       test.equal [1,2,3,5,6,7].listString(), '1–3 and 5–7'
       test.done()
+
+unless module.parent?
+   nodeunit = require '../node_modules/nodeunit'
+   # console.log nodeunit.reporters
+   nodeunit.reporters.default.run exports
