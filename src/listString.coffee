@@ -8,7 +8,7 @@
   any
 } = require './utils'
 
-Articles = require('Articles')
+Articles = require('articles')
 {toString} = Object::
 
 # listString = (me, andor, article, comma = ', ') ->
