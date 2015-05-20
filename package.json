@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "nodeunit": "~0.8.2",
-    "articles": "~0.2.1",
+    "Articles": "git://github.com/chadkirby/Articles",
     "natural": "~0.1.25"
   },
   "author": "Chad Kirby",
