@@ -45,7 +45,7 @@ test('test can list consecutive letters', (assert) => {
 test('test can list non-consecutive integers', (assert) => {
   assert.equal(listString([1,2,3,5,6,7]), '1–3 and 5–7');
   assert.equal(listString([3,2,6,5,6,1,7]), '1–3 and 5–7');
-  assert.equal(listString([1,2,3,5,6,7,10]), '1–3, 5–7, and 10');
+  assert.equal(listString([1,2,3,5,6,7,10], '&'), '1–3, 5–7, & 10');
   assert.end();
 });
 
