@@ -1,10 +1,10 @@
 {
   "name": "mr-lister",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "format lists of numbers, letters, or arbitrary items",
   "main": "./lib/index",
   "scripts": {
-    "test": "./node_modules/.bin/nodeunit test"
+    "test": "tape \"tests/*-test.js\" | tap-diff"
   },
   "repository": {
     "type": "git",
@@ -15,13 +15,13 @@
     "array",
     "list"
   ],
-  "dependencies": {
-    "nodeunit": "~0.8.2",
-    "Articles": "git://github.com/chadkirby/Articles",
-    "natural": "~0.1.25"
+  "devDependencies": {
+    "tap-diff": "^0.1.1",
+    "tape": "^4.6.2",
+    "tape-catch": "^1.0.6"
   },
   "author": "Chad Kirby",
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "readmeFilename": "README.md",
   "gitHead": "2a585dc7bfa21ab85d90f5dcd07674413d2b7760"
 }
