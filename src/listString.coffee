@@ -44,7 +44,7 @@ listString = (me, options = {}) ->
 
   unless delimiter?
     delimiter = if andOrProvided then andor else ''
-    delimiter = " #{delimiter} " if /^[\w\/]+$/i.test(delimiter)
+    delimiter = delimiter.replace(/^(?![,.;:\s])/, ' ').replace(/[^,.;:\s]$/, '$& ')
 
   unless arr?
     arr = me[..] # (item for item in me when item?)
