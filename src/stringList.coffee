@@ -3,7 +3,9 @@ stringList = (me, options = {}) ->
    sort = options.sort ? yes
    unique = options.unique ? yes
    numbers = []
-   pat = /(\d+)(?:\s*[-—]\s*(\d+))?/g
+   # allow dash, en-dash, or em-dash between ranges
+   # allow a dot after the first number in a range
+   pat = /(\d+)(?:[.]?\s*[-\u2013\u2014]\s*(\d+))?/g
    while (res = pat.exec me)
       num = parseInt res[1]
       endNum = parseInt(res[2] ? num)
