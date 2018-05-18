@@ -1,6 +1,6 @@
 {
   "name": "mr-lister",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "format lists of numbers, letters, or arbitrary items",
   "main": "./lib/index",
   "scripts": {
