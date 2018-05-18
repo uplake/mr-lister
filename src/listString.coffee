@@ -40,7 +40,7 @@ listString = (me, options = {}) ->
       delimiter = comma if arr.length > 2
     else
       complex = any me, (item) -> /,/.test(item)
-      delimiter = if complex then '; ' else comma
+      delimiter = if complex then comma.replace(/,/, ';') else comma
 
   unless delimiter?
     delimiter = if andOrProvided then andor else ''
