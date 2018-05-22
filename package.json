@@ -1,5 +1,5 @@
 {
-  "name": "mr-lister",
+  "name": "@ckirby/mr-lister",
   "version": "2.0.4",
   "description": "format lists of numbers, letters, or arbitrary items",
   "main": "./lib/index",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uplake/mr-lister.git"
+    "url": "https://github.com/chadkirby/mr-lister.git"
   },
   "keywords": [
     "javascript",
