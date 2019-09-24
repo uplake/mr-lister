@@ -2,7 +2,7 @@
   "name": "@ckirby/mr-lister",
   "version": "2.1.1",
   "description": "format lists of numbers, letters, or arbitrary items",
-  "main": "./lib/index",
+  "main": "./src/index",
   "scripts": {
     "test": "tape \"tests/*-test.js\" | tap-diff"
   },
@@ -25,7 +25,7 @@
     "tom-jumbo-grumbo": "git+ssh://git@github.com/PatentNavigation/tom-jumbo-grumbo.git#v1.0.3"
   },
   "files": [
-    "lib"
+    "src"
   ],
   "author": "Chad Kirby",
   "license": "BSD-2-Clause",
