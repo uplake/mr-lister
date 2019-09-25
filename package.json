@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chadkirby/mr-lister.git"
+    "url": "git+https://github.com/chadkirby/mr-lister.git"
   },
   "keywords": [
     "javascript",
@@ -29,9 +29,11 @@
   ],
   "author": "Chad Kirby",
   "license": "BSD-2-Clause",
-  "readmeFilename": "README.md",
-  "gitHead": "2a585dc7bfa21ab85d90f5dcd07674413d2b7760",
   "dependencies": {
     "block-re": "git+https://github.com/chadkirby/block-re.git"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/chadkirby/mr-lister/issues"
+  },
+  "homepage": "https://github.com/chadkirby/mr-lister#readme"
 }
