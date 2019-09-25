@@ -30,5 +30,8 @@
   "author": "Chad Kirby",
   "license": "BSD-2-Clause",
   "readmeFilename": "README.md",
-  "gitHead": "2a585dc7bfa21ab85d90f5dcd07674413d2b7760"
+  "gitHead": "2a585dc7bfa21ab85d90f5dcd07674413d2b7760",
+  "dependencies": {
+    "block-re": "git+https://github.com/chadkirby/block-re.git"
+  }
 }

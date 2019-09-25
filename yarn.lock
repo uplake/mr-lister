@@ -143,6 +143,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+"block-re@git+https://github.com/chadkirby/block-re.git":
+  version "1.0.0"
+  resolved "git+https://github.com/chadkirby/block-re.git#98cb22591f1e04fd3b357e217702356cf88647e1"
+
 bluebird@^3.5.0:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
