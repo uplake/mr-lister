@@ -1,25 +1,21 @@
 const re = require('block-re');
 const stringList = require('./string-list');
-const listString = require('./list-string');
 
-// match conjunctions that we often see inside number ranges, e.g.,
+// match conjunctions that we often see inside lists, e.g.,
 // 'claims 1, 4, and 5'; 'claims 5 to 10'; 'paragraphs 17 and/or 35'
-const conjunctions = /(?:and\s*\/\s*or|&|and|or|to|thru|through)/i;
+const conjunctions = /(?:AND\S*\/\S*OR|and\s*\/\s*or|&|AND|and|OR|or|TO|to|THRU|thru|THROUGH|through)/i;
 
-function findList(text, { max = 999 } = {}) {
-  // match numbers, but exclude ordinals (e.g., 1st, 2nd, 3rd, 4th...)
-  const num = re()`\d{1,${String(max).length}}(?!\w)`;
+// by default, match number ranges
+function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
 
-  // match a whole number-range substring, e.g., '1, 3-4, and 5'
-  const numberRange = re('gi')`(?:
-    // match a solo 1-3 digit number or a range of 1-3 digit numbers
-    (?: ${num} ) (?: \s*[-–]\s* ${num} )?
+  // match one or more items
+  const rangePattern = re('g')`(?:
+    (?: ${item} )
     // match trailing punctuation and a conjunction if there are more numbers thereafter
-    (?: [\s,;]* ${conjunctions}? \s* (?= ${num}) )?
+    (?: [\s,;]* ${conjunctions}? \s* (?= ${item}) )?
   )+`;
 
-  // we will fix ranges that are preceded by a range label (singular or plural)
-  const rangeToFind = re('gi')`
+  const rangeToFind = re('g')`
     \b (?<label>
         // allow a label made of non-digit word chars
         [^\d\W]+
@@ -29,15 +25,18 @@ function findList(text, { max = 999 } = {}) {
         [.]?
       )?
       \s*
-      (?<range>${numberRange})
+      (?<range>${rangePattern})
   `;
   let res;
   let matches = [];
   while ((res = rangeToFind.exec(text))) {
-    let { index, 0: match, groups: { range, label } } = res;
+    let { index, 0: match, groups: { range, label = `` } } = res;
     range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');
+    // get a list of the individual items
+    let items = match.match(item);
+    // get a list of all the integers the range refers to
     let list = stringList(range);
-    matches.push({ index, match, label, list });
+    matches.push({ index, items, match, label, list });
   }
   return matches;
 }
