@@ -1,7 +1,6 @@
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
  * DS202: Simplify dynamic range loops
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS207: Consider shorter variations of null checks
@@ -14,18 +13,21 @@ function unique(arr) {
   return [ ...new Set(arr) ];
 }
 
-function consolidateRanges(inputArray, delimiter = '–') {
-  const arr = unique(inputArray).sort((a, b) => a - b);
-  const rangeEnds = [];
+function consolidate(arr, delimiter, getVal) {
   const rangeBegs = [];
-  arr.forEach((num, i) => {
-    if (num !== (arr[i - 1] + 1)) {
-      rangeBegs.push(num);
+  const rangeEnds = [];
+  for (let index = 0; index < arr.length; index++) {
+    let curr = getVal(arr[index]);
+    let prev = getVal(arr[index - 1]);
+    let next = getVal(arr[index + 1]);
+
+    if (curr !== prev + 1) {
+      rangeBegs.push(arr[index]);
     }
-    if (num !== (arr[i + 1] - 1)) {
-      rangeEnds.push(num);
+    if (curr !== next - 1) {
+      rangeEnds.push(arr[index]);
     }
-  });
+  }
   return rangeBegs.map((start, i) => {
     const end = rangeEnds[i];
     if (start === end) {
@@ -35,61 +37,37 @@ function consolidateRanges(inputArray, delimiter = '–') {
   });
 }
 
-function consolidateAlphaRanges(inputArray, delimiter = '–') {
-  const arr = unique(inputArray).sort();
-  const rangeEnds = [];
-  const rangeBegs = [];
-  arr.forEach((ltr, i) => {
-    if (ltr.charCodeAt() !== (__guard__(arr[i - 1], (x) => x.charCodeAt()) + 1)) {
-      rangeBegs.push(ltr);
-    }
-    if (ltr.charCodeAt() !== (__guard__(arr[i + 1], (x1) => x1.charCodeAt()) - 1)) {
-      rangeEnds.push(ltr);
-    }
-  });
-
-  return rangeBegs.map((start, i) => {
-    const end = rangeEnds[i];
-    if (start === end) {
-      return start;
-    } else {
-      return `${start}${delimiter}${end}`;
-    }
-  });
+function consolidateRanges(inputArray, delimiter = '–') {
+  return consolidate(
+    unique(inputArray).sort((a, b) => a - b),
+    delimiter,
+    (x) => x
+  );
 }
 
-const every = function(arr, testFn) { // slightly faster than [].every
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (!testFn(item, i)) {
-      return false;
-    }
-  }
-  return true;
-};
+function consolidateAlphaRanges(inputArray, delimiter = '–') {
+  return consolidate(
+    unique(inputArray).sort(),
+    delimiter,
+    (x) => x ? x.charCodeAt() : NaN);
+}
 
-const any = function(arr, testFn) {
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (testFn(item, i)) {
-      return true;
-    }
+function expandAlphaRange(fromChar, toChar) {
+  let fromCode = fromChar.charCodeAt();
+  let toCode = toChar.charCodeAt();
+  if (fromCode > toCode) {
+    [ toCode, fromCode ] = [ fromCode, toCode ];
   }
-  return false;
-};
-
+  return [ ...Array(toCode - fromCode + 1).keys() ]
+    .map((ii) => String.fromCharCode(fromCode + ii))
+    .filter((char) => /[a-z]/i.test(char));
+}
 
 module.exports = {
   isNumber,
   isInt,
   unique,
-  every,
-  any,
   consolidateRanges,
-  consolidateAlphaRanges
+  consolidateAlphaRanges,
+  expandAlphaRange
 };
-
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
