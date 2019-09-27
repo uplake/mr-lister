@@ -27,16 +27,24 @@ function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
       \s*
       (?<range>${rangePattern})
   `;
+  return matchAll(text, rangeToFind).map(
+    ({ index, 0: match, groups: { range, label = `` } }) => {
+      range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');
+      // get a list of the individual items
+      let items = matchAll(match, item).map(({ index, 0: item }) => ({ index, item }));
+
+      // get a list of all the integers the range refers to
+      let list = stringList(range);
+      return { index, items, match, label, list };
+    }
+  );
+}
+
+function matchAll(text, pattern) {
   let res;
   let matches = [];
-  while ((res = rangeToFind.exec(text))) {
-    let { index, 0: match, groups: { range, label = `` } } = res;
-    range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');
-    // get a list of the individual items
-    let items = match.match(item);
-    // get a list of all the integers the range refers to
-    let list = stringList(range);
-    matches.push({ index, items, match, label, list });
+  while ((res = pattern.exec(text))) {
+    matches.push(res);
   }
   return matches;
 }
