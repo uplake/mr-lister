@@ -1,6 +1,6 @@
 
 function stringList(str, { sort = true, unique = true } = {}) {
-  let numbers = [];
+  let groups = [];
   // allow dash, en-dash, or em-dash between ranges
   // allow a dot after the first number in a range
   let pat = /(\d+)(?:[.]?\s*[-\u2013\u2014]\s*(\d+))?/g;
@@ -20,20 +20,38 @@ function stringList(str, { sort = true, unique = true } = {}) {
       [ endNum, num ] = [ num, endNum ];
     }
 
-    while (num <= endNum) {
-      numbers.push(num);
-      num++;
+    groups.push(Array(endNum - num + 1).fill(num).map((n, i) => n + i));
+  }
+
+  // sort range groups by their start value
+  let sortedGroups = groups.slice().sort(([ a ], [ b ]) => a - b);
+
+  let needsSort = false;
+  let needsUnique = false;
+  for (const [ i, range ] of sortedGroups.slice(1).entries()) {
+    let prev = sortedGroups[i][sortedGroups[i].length - 1];
+    let curr = range[0];
+    needsSort = needsSort || curr < prev;
+    needsUnique = needsUnique || curr <= prev;
+    if (needsSort && needsUnique) {
+      break;
     }
-    if (unique) {
+  }
+  let numbers = [].concat(...(sort ? sortedGroups : groups));
+
+  if (groups.length > 1) {
+
+    if (unique && needsUnique) {
+      needsUnique = false;
       numbers = [ ...new Set(numbers) ];
     }
+    if (sort && needsSort) {
+      needsSort = false;
+      numbers.sort((a, b) => a - b);
+    }
   }
 
-  if (sort) {
-    numbers.sort((a, b) => a - b);
-  }
-
-  return numbers;
+  return Object.assign(numbers, { needsSort, needsUnique });
 }
 
 module.exports = stringList;

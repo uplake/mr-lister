@@ -67,3 +67,23 @@ test('test can list non-consecutive letters', (assert) => {
   ]), 'A, C–D, a–b, and d–e');
   assert.end();
 });
+
+
+test('listString handles very large ranges', (assert) => {
+  let elapsed = [];
+  let rng = [ ...Array(100000).keys() ];
+  rng.needsSort = false;
+  rng.needsUnique = false;
+  let output;
+  let count = 20;
+  while (count--) {
+    let start = new Date();
+    output = listString(rng);
+    let end = new Date();
+    elapsed.push(end - start);
+  }
+  let avg = elapsed.reduce((sum, val) => sum + val, 0) / elapsed.length;
+  assert.ok(avg < 100, `elapsed time (${avg}ms) is acceptable`);
+  assert.equal(output, '0–99999');
+  assert.end();
+});
