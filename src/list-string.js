@@ -28,7 +28,11 @@ function listString(list, options = {}) {
   let arr;
   if (isRange) {
     // is numeric range
-    arr = consolidateRanges(Array.from(list).map((a) => parseInt(a, 10)));
+    arr = consolidateRanges(
+      Array.from(list).map((a) => parseInt(a, 10)),
+      '–',
+      list
+    );
   } else { // test if alphabetic range
     isRange = list.every((x) => /^[a-z]$/i.test(x));
     if (isRange) {

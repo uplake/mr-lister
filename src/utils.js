@@ -37,9 +37,16 @@ function consolidate(arr, delimiter, getVal) {
   });
 }
 
-function consolidateRanges(inputArray, delimiter = '–') {
+function consolidateRanges(inputArray, delimiter = '–', { needsSort = true, needsUnique = true } = {}) {
+  let arr = inputArray.slice();
+  if (needsUnique) {
+    arr = unique(arr);
+  }
+  if (needsSort) {
+    arr.sort((a, b) => a - b);
+  }
   return consolidate(
-    unique(inputArray).sort((a, b) => a - b),
+    arr,
     delimiter,
     (x) => x
   );

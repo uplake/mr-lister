@@ -31,10 +31,10 @@ function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
     ({ index, 0: match, groups: { range, label = `` } }) => {
       range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');
       // get a list of the individual items
-      let items = matchAll(match, item).map(({ index, 0: item }) => ({ index, item }));
+      let items = matchAll(match, item).map((x) => ({ index: x.index, item: x[0] }));
 
       // get a list of all the integers the range refers to
-      let list = stringList(range);
+      let list = stringList(range).slice();
       return { index, items, match, label, list };
     }
   );
