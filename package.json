@@ -1,6 +1,6 @@
 {
   "name": "@ckirby/mr-lister",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "format lists of numbers, letters, or arbitrary items",
   "main": "./src/index",
   "scripts": {
