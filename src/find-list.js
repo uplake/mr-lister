@@ -1,4 +1,4 @@
-const re = require('block-re');
+const re = require('@ckirby/block-re');
 const stringList = require('./string-list');
 
 // match conjunctions that we often see inside lists, e.g.,
