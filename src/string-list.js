@@ -51,7 +51,10 @@ function stringList(str, { sort = true, unique = true } = {}) {
     }
   }
 
-  return Object.assign(numbers, { needsSort, needsUnique });
+  return Object.defineProperties(numbers, {
+    needsSort: { value: needsSort, writable: false, enumerable: false },
+    needsUnique: { value: needsUnique, writable: false, enumerable: false }
+  });
 }
 
 module.exports = stringList;
