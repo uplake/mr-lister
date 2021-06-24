@@ -13,7 +13,7 @@ function unique(arr) {
   return [ ...new Set(arr) ];
 }
 
-function consolidate(arr, delimiter, getVal) {
+function consolidate(arr, delimiter, getVal, minRangeDelta = 1) {
   const rangeBegs = [];
   const rangeEnds = [];
   for (let index = 0; index < arr.length; index++) {
@@ -22,22 +22,27 @@ function consolidate(arr, delimiter, getVal) {
     let next = getVal(arr[index + 1]);
 
     if (curr !== prev + 1) {
-      rangeBegs.push(arr[index]);
+      rangeBegs.push({ index, val: arr[index] });
     }
     if (curr !== next - 1) {
-      rangeEnds.push(arr[index]);
+      rangeEnds.push({ index, val: arr[index] });
     }
   }
-  return rangeBegs.map((start, i) => {
+  let out = [];
+  for (const [ i, start ] of rangeBegs.entries()) {
     const end = rangeEnds[i];
-    if (start === end) {
-      return start;
+    if (start.val === end.val) {
+      out.push(start.val);
+    } else if (getVal(end.val) - getVal(start.val) < minRangeDelta) {
+      out.push(...arr.slice(start.index, end.index + 1));
+    } else {
+      out.push(`${start.val}${delimiter}${end.val}`);
     }
-    return `${start}${delimiter}${end}`;
-  });
+  }
+  return out;
 }
 
-function consolidateRanges(inputArray, delimiter = '–', { needsSort = true, needsUnique = true } = {}) {
+function consolidateRanges(inputArray, delimiter = '–', { needsSort = true, needsUnique = true } = {}, minRangeDelta) {
   let arr = inputArray.slice();
   if (needsUnique) {
     arr = unique(arr);
@@ -48,7 +53,8 @@ function consolidateRanges(inputArray, delimiter = '–', { needsSort = true, ne
   return consolidate(
     arr,
     delimiter,
-    (x) => x
+    (x) => x,
+    minRangeDelta
   );
 }
 

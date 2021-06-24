@@ -23,6 +23,7 @@ function listString(list, options = {}) {
   const { article } = options;
 
   const comma = options.comma || options.separator || ', ';
+  const minRangeDelta = options.minRangeDelta || 1;
 
   let isRange = list.every(isInt);
   let arr;
@@ -31,7 +32,8 @@ function listString(list, options = {}) {
     arr = consolidateRanges(
       Array.from(list).map((a) => parseInt(a, 10)),
       '–',
-      list
+      list,
+      minRangeDelta
     );
   } else { // test if alphabetic range
     isRange = list.every((x) => /^[a-z]$/i.test(x));
