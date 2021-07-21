@@ -30,7 +30,7 @@
   "author": "Chad Kirby",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "@ckirby/block-re": "1.1.2"
+    "@ckirby/block-re": "^2.0.0"
   },
   "bugs": {
     "url": "https://github.com/chadkirby/mr-lister/issues"
