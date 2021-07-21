@@ -9,13 +9,13 @@ const conjunctions = /(?:AND\S*\/\S*OR|and\s*\/\s*or|&|AND|and|OR|or|TO|to|THRU|
 function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
 
   // match one or more items
-  const rangePattern = re('g')`(?:
+  const rangePattern = re`/(?:
     (?: ${item} )
     // match trailing punctuation and a conjunction if there are more numbers thereafter
     (?: [\s,;]* ${conjunctions}? \s* (?= ${item}) )?
-  )+`;
+  )+/g`;
 
-  const rangeToFind = re('g')`
+  const rangeToFind = re`/
     \b (?<label>
         // allow a label made of non-digit word chars
         [^\d\W]+
@@ -26,7 +26,7 @@ function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
       )?
       \s*
       (?<range>${rangePattern})
-  `;
+  /g`;
   return matchAll(text, rangeToFind).map(
     ({ index, 0: match, groups: { range, label = `` } }) => {
       range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');

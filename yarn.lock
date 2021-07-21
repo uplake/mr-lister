@@ -18,10 +18,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@ckirby/block-re@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@ckirby/block-re/-/block-re-1.1.2.tgz#df2705250264f362118d91ae912d4ebf8810f7db"
-  integrity sha512-nJlBVIDW+1SVe8ycSfuU7Nme66HvFMJDgQdN80OkdFEkgnoJstIMCZx9EBxUiCAHomXTv3RrkFUA/dRXfhGTeg==
+"@ckirby/block-re@^2.0.0":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ckirby/block-re/-/block-re-2.0.2.tgz#f58d571d797905cd73af250d370383f583e1df9e"
+  integrity sha512-mytlqgq+kFxGCwvYXSjCx34C/9UcS3Ssx9IdKJ9D7524ioe1lHwejRjQrwFNcTQCU1L9oV2uPHppt2Eo85sJlA==
 
 "@ember-data/rfc395-data@^0.0.4":
   version "0.0.4"
