@@ -1,5 +1,5 @@
 let test = require('tape-catch');
-let { findList } = require('../src/find-list');
+let { findList } = require('../');
 
 test('findList list strings', (assert) => {
   assert.deepEqual(

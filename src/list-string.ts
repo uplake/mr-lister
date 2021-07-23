@@ -1,15 +1,30 @@
 
-const {
+import {
   isInt,
   consolidateRanges,
   consolidateAlphaRanges
-} = require('./utils');
+} from './utils';
 
+type ListStringOptions = {
+  article?: string;
+  comma?: string;
+  delimiter?: string;
+  andor?: string;
+  conjunction?: string;
+  separator?: string;
+  minRangeDelta?: number;
+}
 
-function listString(list, options = {}) {
-  let andor;
+type List = unknown[] & { needsSort?: boolean, needsUnique?: boolean };
 
-  if (toString.call(options) === '[object String]') {
+function isString(value: unknown): value is string {
+  return toString.call(value) === '[object String]'
+}
+
+export default function listString(list: List, options: ListStringOptions | string = {}) {
+  let andor: string;
+
+  if (isString(options)) {
     // compatability with old-style fn call
     andor = options;
     let [ ,, article, comma ] = arguments;
@@ -25,31 +40,34 @@ function listString(list, options = {}) {
   const comma = options.comma || options.separator || ', ';
   const minRangeDelta = options.minRangeDelta || 1;
 
-  let isRange = list.every(isInt);
-  let arr;
-  if (isRange) {
+  // is the list an array of numbers or string-versions of numbers?
+  let isNumeric = list.every(isInt);
+  let isAlpha = false;
+  let arr: unknown[] | null = null;
+  if (isNumeric) {
+    let numberList = (Array.from(list) as (string|number)[]).map((a) => parseInt(a as string, 10))
     // is numeric range
     arr = consolidateRanges(
-      Array.from(list).map((a) => parseInt(a, 10)),
+      numberList,
       '–',
       list,
       minRangeDelta
     );
   } else { // test if alphabetic range
-    isRange = list.every((x) => /^[a-z]$/i.test(x));
-    if (isRange) {
+    isAlpha = list.every((x) => /^[a-z]$/i.test(x as string));
+    if (isAlpha) {
       arr = consolidateAlphaRanges(list);
     }
   }
 
   let delimiter;
   if (list.length > 2) {
-    if (isRange) {
+    if (arr !== null) {
       if (arr.length > 2) {
         delimiter = comma;
       }
     } else {
-      const complex = list.find((x) => /,/.test(x));
+      const complex = list.find((x) => /,/.test(x as string));
       delimiter = complex ? comma.replace(/,/, ';') : comma;
     }
   }
@@ -73,5 +91,3 @@ function listString(list, options = {}) {
   }
   return arr.join(delimiter);
 }
-
-module.exports = listString;

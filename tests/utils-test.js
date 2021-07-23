@@ -1,5 +1,5 @@
 let test = require('tape-catch');
-let { expandAlphaRange } = require('../src/utils');
+let { expandAlphaRange } = require('../');
 
 test('expandAlphaRange expands alpha range', (assert) => {
   assert.deepEqual(

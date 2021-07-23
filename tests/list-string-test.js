@@ -1,5 +1,5 @@
 let test = require('tape-catch');
-let listString = require('../src/list-string');
+let {listString} = require('../');
 
 test('listString list strings', (assert) => {
   assert.equal(listString([ 'apples', 'oranges' ]), 'apples and oranges');

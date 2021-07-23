@@ -2,8 +2,23 @@
   "name": "@ckirby/mr-lister",
   "version": "2.6.1",
   "description": "format lists of numbers, letters, or arbitrary items",
-  "main": "./src/index",
+  "main": "./dist/cjs/index.js",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "types": "./types/index.d.ts",
   "scripts": {
+    "compile": "yarn compile:cjs && yarn compile:esm",
+    "compile:cjs": "tsc -p tsconfig.json",
+    "compile:esm": "tsc -p tsconfig-esm.json",
+    "prepublishOnly": "yarn compile",
+    "watch": "yarn tsc-watch",
     "test": "tape \"tests/*-test.js\" | tap-diff"
   },
   "repository": {
@@ -16,16 +31,22 @@
     "list"
   ],
   "devDependencies": {
-    "eslint": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-turbopatent": "^4.0.0",
     "git-release": "^0.6.0",
+    "prettier": "^2.3.2",
     "tap-diff": "^0.1.1",
     "tape": "^4.6.2",
     "tape-catch": "^1.0.6",
-    "tom-jumbo-grumbo": "git+ssh://git@github.com/PatentNavigation/tom-jumbo-grumbo.git#v1.0.3"
+    "tom-jumbo-grumbo": "git+ssh://git@github.com/PatentNavigation/tom-jumbo-grumbo.git#v1.0.3",
+    "typescript": "^4.3.5"
   },
   "files": [
-    "src"
+    "dist", "types"
   ],
   "author": "Chad Kirby",
   "license": "BSD-2-Clause",
