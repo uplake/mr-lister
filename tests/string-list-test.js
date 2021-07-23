@@ -1,5 +1,5 @@
 const test = require('tape-catch');
-const stringList = require('../src/string-list');
+const {stringList} = require('..');
 
 test('stringList strings lists', (assert) => {
   assert.deepEqual(stringList('1').slice(), [ 1 ]);

@@ -1,13 +1,13 @@
-const re = require('@ckirby/block-re');
-const stringList = require('./string-list');
+import re from "@ckirby/block-re";
+import stringList from "./string-list";
 
 // match conjunctions that we often see inside lists, e.g.,
 // 'claims 1, 4, and 5'; 'claims 5 to 10'; 'paragraphs 17 and/or 35'
-const conjunctions = /(?:AND\S*\/\S*OR|and\s*\/\s*or|&|AND|and|OR|or|TO|to|THRU|thru|THROUGH|through)/i;
+const conjunctions =
+  /(?:AND\S*\/\S*OR|and\s*\/\s*or|&|AND|and|OR|or|TO|to|THRU|thru|THROUGH|through)/i;
 
 // by default, match number ranges
-function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
-
+export function findList(text: string, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
   // match one or more items
   const rangePattern = re`/(?:
     (?: ${item} )
@@ -28,10 +28,14 @@ function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
       (?<range>${rangePattern})
   /g`;
   return matchAll(text, rangeToFind).map(
-    ({ index, 0: match, groups: { range, label = `` } }) => {
-      range = range.replace(/\s*(?:to|thru|through)\s*/gi, '-');
+    ({ index, 0: match, groups}) => {
+      let { range, label = `` } = groups as {range: string, label: string };
+      range = range.replace(/\s*(?:to|thru|through)\s*/gi, "-");
       // get a list of the individual items
-      let items = matchAll(match, item).map((x) => ({ index: x.index, item: x[0] }));
+      let items = matchAll(match, item).map((x) => ({
+        index: x.index,
+        item: x[0],
+      }));
 
       // get a list of all the integers the range refers to
       let list = stringList(range).slice();
@@ -40,15 +44,11 @@ function findList(text, { item = /\d+(?:\s*[-–]\s*\d+)?\b/g } = {}) {
   );
 }
 
-function matchAll(text, pattern) {
+function matchAll(text: string, pattern: RegExp) {
   let res;
-  let matches = [];
+  let matches: RegExpExecArray[] = [];
   while ((res = pattern.exec(text))) {
     matches.push(res);
   }
   return matches;
 }
-
-module.exports = {
-  findList
-};
